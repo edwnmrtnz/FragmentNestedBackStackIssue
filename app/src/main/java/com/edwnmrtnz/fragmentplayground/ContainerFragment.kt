@@ -6,22 +6,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.addCallback
 
 class ContainerFragment : Fragment() {
+
+    private val onBackPressedCallback = object : OnBackPressedCallback(false) {
+        override fun handleOnBackPressed() {
+            childFragmentManager.popBackStackImmediate()
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        requireActivity()
-            .onBackPressedDispatcher
-            .addCallback(this) {
-                val popped = childFragmentManager.popBackStackImmediate()
-                if (!popped) {
-                    isEnabled = false
-                    requireActivity().onBackPressedDispatcher.onBackPressed()
-                }
-            }
+       requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+        childFragmentManager.addOnBackStackChangedListener {
+            onBackPressedCallback.isEnabled = childFragmentManager.backStackEntryCount > 0
+        }
     }
 
     override fun onCreateView(

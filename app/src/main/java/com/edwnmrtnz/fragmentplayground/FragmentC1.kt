@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
-import androidx.activity.addCallback
 
 class FragmentC1 : Fragment() {
 
@@ -16,23 +15,7 @@ class FragmentC1 : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
         listener = parentFragment as FragmentNestListener
-    }
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        requireActivity()
-            .onBackPressedDispatcher
-            .addCallback(this) {
-                val popped = childFragmentManager.popBackStackImmediate()
-                if (!popped) {
-                    isEnabled = false
-                    requireActivity().onBackPressedDispatcher.onBackPressed()
-                }
-            }
     }
 
     override fun onCreateView(
