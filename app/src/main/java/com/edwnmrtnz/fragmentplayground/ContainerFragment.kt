@@ -23,6 +23,14 @@ class ContainerFragment : Fragment() {
         childFragmentManager.addOnBackStackChangedListener {
             onBackPressedCallback.isEnabled = childFragmentManager.backStackEntryCount > 0
         }
+
+        if(savedInstanceState == null) {
+            val a = FragmentA()
+            val tag = FragmentA::class.java.name
+            val ft = childFragmentManager.beginTransaction()
+            ft.replace(R.id.flContainer, a, tag)
+            ft.commit()
+        }
     }
 
     override fun onCreateView(
@@ -30,17 +38,5 @@ class ContainerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.container, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        if(savedInstanceState == null) {
-            val c1 = FragmentA()
-            val tag = FragmentA::class.java.name
-            val ft = childFragmentManager.beginTransaction()
-            ft.replace(R.id.flContainer, c1, tag)
-            ft.commit()
-        }
     }
 }

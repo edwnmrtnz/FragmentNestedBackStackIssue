@@ -22,11 +22,8 @@ class FragmentC : Fragment(), FragmentNestListener {
         childFragmentManager.addOnBackStackChangedListener {
             onBackPressedCallback.isEnabled = childFragmentManager.backStackEntryCount > 0
         }
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+        // Moving this block of code in onViewCreated causes issue.
         if(savedInstanceState == null) {
             val c1 = FragmentC1()
             val tag = FragmentC1::class.java.name
@@ -35,6 +32,7 @@ class FragmentC : Fragment(), FragmentNestListener {
             ft.commit()
         }
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
